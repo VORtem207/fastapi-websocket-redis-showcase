@@ -1,0 +1,2 @@
+
+ONE_HOUR_IN_SECONDS: int = 3600

@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+#    web_1:
+#        build: .
+#        volumes:
+#            - ./:/app
+#        ports:
+#            - "8000:8000"
+#        depends_on:
+#            - redis
+#
+#    web_2:
+#        build: .
+#        volumes:
+#            - ./:/app
+#        ports:
+#            - "8002:8000"
+#        depends_on:
+#            - redis
+
+    redis:
+        image: "redis:alpine"
+        ports:
+            - "6379:6379"
+        restart:
+            unless-stopped
+
+    redis-commander:
+        image: rediscommander/redis-commander:latest
+        environment:
+            - REDIS_HOSTS=redis
+        ports:
+            - "8081:8081"
+        depends_on:
+            - redis
+
+#    temporal:
+#        image: temporalio/auto-setup:${TEMPORAL_VERSION}
+#        ports:
+#            - "7233:7233"
+#        depends_on:
+#            - redis
+#
+#    temporal-admin-tools:
+#        image: temporalio/admin-tools:${TEMPORAL_ADMINTOOLS_VERSION}
+#        environment:
+#            - TEMPORAL_ADDRESS=temporal:7233
+#            - TEMPORAL_CLI_ADDRESS=temporal:7233
+#        stdin_open: true
+#        tty: true
+#        depends_on:
+#            - temporal
+#
+#    temporal-ui:
+#        image: temporalio/ui:${TEMPORAL_UI_VERSION}
+#        environment:
+#            - TEMPORAL_ADDRESS=temporal:7233
+#            - TEMPORAL_CORS_ORIGINS=http://localhost:3000
+#        ports:
+#            - "8080:8080"
+#        depends_on:
+#            - temporal
